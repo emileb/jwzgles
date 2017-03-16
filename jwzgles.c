@@ -146,8 +146,8 @@
 #undef DEBUG
 //#define DEBUG
 
-#define HAVE_JWZGLES	
-#define USE_IPHONE
+//#define HAVE_JWZGLES
+//#define USE_IPHONE
 
 #ifdef HAVE_CONFIG_H
 # include "config.h"
@@ -383,7 +383,7 @@ static jwzgles_state *state = 0;
 # define CHECK(S)              /* */
 #endif
 
-# define CHECK(S) check_gl_error(S)
+//# define CHECK(S) check_gl_error(S)
 
 
 static const char *
@@ -585,7 +585,11 @@ check_gl_error (const char *s)
 {
     GLenum i = glGetError();
     if (i == GL_NO_ERROR) return;
+#ifdef __ANDROID__
+    LOGI("jwzgles: GL ERROR: %s: %s\n", s, mode_desc(i));
+#else
     fprintf (stderr, "jwzgles: GL ERROR: %s: %s\n", s, mode_desc(i));
+#endif
 }
 
 static void
@@ -2960,6 +2964,7 @@ jwzgles_glGenTextures (GLuint n, GLuint *ret)
 {
   Assert (!state->compiling_verts,
           "glGenTextures not allowed inside glBegin");
+
   /* technically legal, but stupid! */
   Assert (!state->compiling_list,
           "glGenTextures not allowed inside glNewList");
@@ -3036,7 +3041,7 @@ jwzgles_glTexImage2D (GLenum target,
     type = GL_UNSIGNED_BYTE;
 
   //TESTTEST
-  format = internalFormat = GL_RGBA;
+  //format = internalFormat = GL_RGBA;
     
   if (! state->replaying_list)
     LOG10 ("direct %-12s %s %d %s %d %d %d %s %s 0x%lX", "glTexImage2D", 
@@ -4096,7 +4101,7 @@ void jwzgles_glViewport (GLuint x, GLuint y, GLuint w, GLuint h)
 void glBlendEquation (GLenum e);
 void jwzgles_glBlendEquation (GLenum e)
 {
-    glBlendEquation(e);
+//    glBlendEquation(e);
 }
 
 /* The following functions are present in both OpenGL 1.1 and in OpenGLES 1,
