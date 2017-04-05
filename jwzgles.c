@@ -3594,7 +3594,15 @@ jwzgles_glMultiTexCoord2fARB(GLenum target, GLfloat s, GLfloat t)
     glMultiTexCoord4f(target,s,t,0,1);
 }
 
+GLvoid* jwzgles_glMapBuffer (GLenum target, GLenum access)
+{
+    glMapBufferOES (target, access);
+}
 
+GLboolean jwzgles_glUnmapBuffer (GLenum target)
+{
+    glUnmapBufferOES(target);
+}
 
 void jwzgles_glDepthRange(GLclampd near_val, GLclampd far_val)
 {
@@ -3733,7 +3741,10 @@ jwzgles_gluErrorString (GLenum error)
   return s;
 }
 
-
+GLubyte * jwzgles_glGetStringi (GLenum name, GLuint index)
+{
+    return ""; // TODO
+}
 /* These four *Pointer calls (plus glBindBuffer and glBufferData) can
    be included inside glNewList, but they actually execute immediately
    anyway, because their data is recorded in the list by the
@@ -3782,6 +3793,21 @@ jwzgles_glTexCoordPointer (GLuint size, GLuint type, GLuint stride,
   glTexCoordPointer (size, type, stride, ptr);  /* the real one */
   CHECK("glTexCoordPointer");
 }
+
+void jwzgles_glGenBuffers (GLsizei n, GLuint *buffers)
+{
+    glGenBuffers(n,buffers);
+}
+void jwzgles_glDeleteBuffers (GLsizei n, const GLuint *buffers)
+{
+    glDeleteBuffers(n,buffers);
+}
+
+void jwzgles_glGenerateMipmap (GLenum target)
+{
+    //glGenerateMipmap( target);
+}
+
 
 void
 jwzgles_glBindBuffer (GLuint target, GLuint buffer)
@@ -4101,7 +4127,7 @@ void jwzgles_glViewport (GLuint x, GLuint y, GLuint w, GLuint h)
 void glBlendEquation (GLenum e);
 void jwzgles_glBlendEquation (GLenum e)
 {
-//    glBlendEquation(e);
+   // glBlendEquation(e);
 }
 
 /* The following functions are present in both OpenGL 1.1 and in OpenGLES 1,

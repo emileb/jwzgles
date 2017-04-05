@@ -379,7 +379,18 @@ extern void jwzgles_glColorPointer (GLuint, GLuint, GLuint, const void *);
 extern void jwzgles_glTexCoordPointer (GLuint, GLuint, GLuint, const void *);
 extern void jwzgles_glBindBuffer (GLuint, GLuint);
 extern void jwzgles_glBufferData (GLenum, GLsizeiptr, const void *, GLenum);
+
+extern void jwzgles_glGenBuffers (GLsizei n, GLuint *buffers);
+extern void jwzgles_glDeleteBuffers (GLsizei n, const GLuint *buffers);
+
+extern void jwzgles_glGenerateMipmap (GLenum target);
+
+extern GLvoid* jwzgles_glMapBuffer (GLenum target, GLenum access);
+extern GLboolean jwzgles_glUnmapBuffer (GLenum target);
+
 extern const char *jwzgles_gluErrorString (GLenum error);
+
+extern GLubyte * jwzgles_glGetStringi (GLenum name, GLuint index);
 
 extern void jwzgles_glMultiTexCoord2fARB(GLenum target, GLfloat s, GLfloat t);
 extern GLenum jwzgles_glGetError();
