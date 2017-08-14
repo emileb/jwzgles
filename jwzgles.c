@@ -3589,6 +3589,12 @@ jwzgles_glGetPointerv (GLenum pname, GLvoid *params)
 }
 
 void
+jwzgles_glMultiTexCoord2f(GLenum target, GLfloat s, GLfloat t) //Same as below, for dynamic loading
+{
+    glMultiTexCoord4f(target,s,t,0,1);
+}
+
+void
 jwzgles_glMultiTexCoord2fARB(GLenum target, GLfloat s, GLfloat t)
 {
     glMultiTexCoord4f(target,s,t,0,1);
@@ -3818,6 +3824,8 @@ jwzgles_glBindBuffer (GLuint target, GLuint buffer)
   CHECK("glBindBuffer");
 }
 
+#define GL_STREAM_DRAW                    0x88E0
+
 void
 jwzgles_glBufferData (GLenum target, GLsizeiptr size, const void *data,
                       GLenum usage)
@@ -3825,7 +3833,11 @@ jwzgles_glBufferData (GLenum target, GLsizeiptr size, const void *data,
   if (! state->replaying_list)
     LOG5 ("direct %-12s %s %ld 0x%lX %s", "glBufferData",
           mode_desc(target), size, (unsigned long) data, mode_desc(usage));
-  glBufferData (target, size, data, usage);  /* the real one */
+
+  if(usage == GL_STREAM_DRAW) //STREAM not valid, fix for gzdoom
+    usage = GL_DYNAMIC_DRAW;
+
+  glBufferData (target, size, data, GL_DYNAMIC_DRAW);  /* the real one */
   CHECK("glBufferData");
 }
 
@@ -3933,9 +3945,8 @@ jwzgles_glFrustum (GLfloat left,   GLfloat right,
   jwzgles_glMultMatrixf (m);
 }
 
-
 void
-jwzgles_glOrtho (GLfloat left,   GLfloat right,
+jwzgles_glOrthof (GLfloat left,   GLfloat right,
                  GLfloat bottom, GLfloat top,
                  GLfloat near,   GLfloat far)
 {
@@ -3955,6 +3966,14 @@ jwzgles_glOrtho (GLfloat left,   GLfloat right,
 # undef M
 
   jwzgles_glMultMatrixf (m);
+}
+
+void
+jwzgles_glOrtho (GLdouble left,   GLdouble right,
+                 GLdouble bottom, GLdouble top,
+                 GLdouble near,   GLdouble far)
+{
+ jwzgles_glOrthof(left,right,bottom,top,near,far);
 }
 
 

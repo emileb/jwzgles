@@ -299,8 +299,8 @@ extern void jwzgles_glLightModeliv (GLenum, const GLint *);
 extern void jwzgles_glGenTextures (GLuint, GLuint *);
 extern void jwzgles_glFrustum (GLfloat, GLfloat, GLfloat, GLfloat,
                                GLfloat, GLfloat);
-extern void jwzgles_glOrtho (GLfloat, GLfloat, GLfloat, GLfloat, 
-                             GLfloat, GLfloat);
+extern void jwzgles_glOrtho (GLdouble, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble);
+extern void jwzgles_glOrthof (GLfloat, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat);
 extern void jwzgles_glTexImage1D (GLenum target, GLint level,
                                   GLint internalFormat,
                                   GLsizei width, GLint border,

@@ -218,7 +218,7 @@
 #define glMultTransposeMatrixd		jwzgles_glMultTransposeMatrixd
 #define glMultTransposeMatrixf		jwzgles_glMultTransposeMatrixf
 #define glMultiTexCoord2f			jwzgles_glMultiTexCoord2fARB
-#define  glMultiTexCoord2fARB       jwzgles_glMultiTexCoord2fARB
+#define glMultiTexCoord2fARB        jwzgles_glMultiTexCoord2fARB
 #define glNewList			jwzgles_glNewList
 #define glNormal3b			jwzgles_glNormal3b
 #define glNormal3bv			jwzgles_glNormal3bv
