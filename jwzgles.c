@@ -321,6 +321,14 @@ typedef struct {	/* All display lists */
 #define ISENABLED_DITHER	(1<<17)
 #define ISENABLED_POLY_FILL	(1<<18)
 #define ISENABLED_LINE_SMOOTH	(1<<19)
+#define ISENABLED_SCISSOR_TEST	(1<<20)
+#define ISENABLED_POLYGON_SMOOTH	(1<<21)
+#define ISENABLED_MULTISAMPLE	(1<<22)
+#define ISENABLED_STENCIL_TEST	(1<<23)
+#define ISENABLED_CLIP_PLANE0	(1<<24)
+#define ISENABLED_CLIP_PLANE1	(1<<25)
+#define ISENABLED_CLIP_PLANE2	(1<<26)
+#define ISENABLED_CLIP_PLANE3	(1<<27)
 
 
 typedef struct {
@@ -348,6 +356,8 @@ typedef struct {	/* global state */
 
 
 static jwzgles_state *state = 0;
+
+static int npot_allowed = 0;
 
 #ifdef DEBUG
 # define LOG(A)                fprintf(stderr,"jwzgles: " A "\n")
@@ -2984,6 +2994,7 @@ to_pow2 (int value)
   return i;
 }
 
+
 void
 jwzgles_glTexImage1D (GLenum target, GLint level,
                       GLint internalFormat,
@@ -3027,7 +3038,28 @@ jwzgles_glTexImage2D (GLenum target,
   case 3: internalFormat = GL_RGB; break;
   case 4: internalFormat = GL_RGBA; break;
   }
+/*
+    if( npot_allowed == 0 )
+    {
+        int width2 = to_pow2(width);
+        int height2 = to_pow2(height);
 
+        if(( width != width2 ) || (height != height2))
+        {
+            // TODO make this better. Force a minimum size otherwise poor quailty fonts in Doom.
+            // Should check size difference, if close then double size
+            if( height2 < 32 ) height2 = 32;
+            if( width2 < 32 ) width2 = 32;
+
+            LOGI("Resize %d x %d -> %d x %d",width,height,width2,height2);
+            d2 = (GLvoid *) calloc (4,width2 * (height2+1));
+            GL_ResampleTexture((unsigned *)data,width,height,(unsigned *)d2,width2,height2);
+
+            width = width2;
+            height = height2;
+        }
+    }
+*/
   /* GLES does not let us omit the data pointer to create a blank texture. */
   if (! data)
     {
@@ -3437,6 +3469,17 @@ enable_disable (GLuint bit, int set)
   case GL_FOG:            flag = ISENABLED_FOG;			     break;
   case GL_COLOR_MATERIAL: flag = ISENABLED_COLMAT;		     break;
   case GL_DITHER:         flag = ISENABLED_DITHER;		     break;
+  case GL_SCISSOR_TEST:   flag = ISENABLED_SCISSOR_TEST;		     break;
+
+  case GL_STENCIL_TEST:   flag = ISENABLED_STENCIL_TEST;		     break;
+  case GL_POLYGON_SMOOTH:   flag = ISENABLED_POLYGON_SMOOTH;		     break;
+  case GL_MULTISAMPLE:   flag = ISENABLED_MULTISAMPLE;		     break;
+  case GL_CLIP_PLANE0:   flag = ISENABLED_CLIP_PLANE0;		     break;
+  case GL_CLIP_PLANE0+1:   flag = ISENABLED_CLIP_PLANE1;		     break;
+  case GL_CLIP_PLANE0+2:   flag = ISENABLED_CLIP_PLANE2;		     break;
+  case GL_CLIP_PLANE0+3:   flag = ISENABLED_CLIP_PLANE3;		     break;
+
+
   case GL_POLYGON_OFFSET_FILL: flag = ISENABLED_POLY_FILL;		     break;
   case GL_LINE_SMOOTH:         flag = ISENABLED_LINE_SMOOTH;		     break;
           
@@ -3602,17 +3645,17 @@ jwzgles_glMultiTexCoord2fARB(GLenum target, GLfloat s, GLfloat t)
 
 GLvoid* jwzgles_glMapBuffer (GLenum target, GLenum access)
 {
-    glMapBufferOES (target, access);
+    //glMapBufferOES (target, access);
 }
 
 GLboolean jwzgles_glUnmapBuffer (GLenum target)
 {
-    glUnmapBufferOES(target);
+    //glUnmapBufferOES(target);
 }
 
 void jwzgles_glDepthRange(GLclampd near_val, GLclampd far_val)
 {
-    glDepthRangef(near_val,far_val);
+    glDepthRangef((GLfloat)near_val,(GLfloat)far_val);
 }
 
 void jwzgles_glReadPixels (GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid *pixels)
@@ -3638,9 +3681,11 @@ GLenum jwzgles_glGetError()
 {
     return glGetError();
 }
+
 GLubyte * jwzgles_glGetString(GLenum name)
 {
-    return glGetString(name);
+    GLubyte * ret = glGetString(name);
+    return ret;
 }
 
 
