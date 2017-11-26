@@ -4188,6 +4188,18 @@ void jwzgles_glViewport (GLuint x, GLuint y, GLuint w, GLuint h)
   glViewport (x, y, w, h);  /* the real one */
 }
 
+void jwzgles_glFinish (void)
+{
+    LOGI("glFinish");
+    glFinish();
+}
+
+void jwzgles_glFlush (void)
+{
+    LOGI("glFlush");
+    glFlush();
+}
+
 void glBlendEquation (GLenum e);
 void jwzgles_glBlendEquation (GLenum e)
 {
@@ -4331,8 +4343,6 @@ WRAP (glColorMask,	IIII)
 WRAP (glCullFace,	I)
 WRAP (glDepthFunc,	I)
 WRAP (glDepthMask,	I)
-WRAP (glFinish,		V)
-WRAP (glFlush,		V)
 WRAP (glFogf,		IF)
 WRAP (glFogfv,		IFV)
 WRAP (glFrontFace,	I)
