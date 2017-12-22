@@ -167,7 +167,7 @@
 #define glGetTexImage2D			jwzgles_glGetTexImage2D
 #define glGetTexImage3D			jwzgles_glGetTexImage3D
 #define glGetTexLevelParameterfv	jwzgles_glGetTexLevelParameterfv
-//#define glGetTexLevelParameteriv	jwzgles_glGetTexLevelParameteriv
+#define glGetTexLevelParameteriv	jwzgles_glGetTexLevelParameteriv
 #define glGetTexParameterfv		jwzgles_glGetTexParameterfv
 //#define glGetTexParameteriv		jwzgles_glGetTexParameteriv
 #define glHistogram			jwzgles_glHistogram

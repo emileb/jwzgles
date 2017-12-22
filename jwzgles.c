@@ -354,6 +354,14 @@ typedef struct {	/* global state */
 
 } jwzgles_state;
 
+typedef struct {	/* State to restore */
+
+  GLuint target;
+  GLuint texture;
+
+} jwzgles_restore_state;
+
+static jwzgles_restore_state restore_state;
 
 static jwzgles_state *state = 0;
 
@@ -641,6 +649,11 @@ jwzgles_reset (void)
     GL_EYE_LINEAR;
   state->s.obj[0] = state->s.eye[0] = 1;  /* s = 1 0 0 0 */
   state->t.obj[1] = state->t.eye[1] = 1;  /* t = 0 1 0 0 */
+}
+
+void jwzgles_restore (void)
+{
+    glBindTexture(restore_state.target,restore_state.texture);
 }
 
 
@@ -3126,7 +3139,26 @@ jwzgles_glCopyTexImage2D (GLenum target, GLint level, GLenum internalformat,
   CHECK("glCopyTexImage2D");
 }
 
+void
+jwzgles_glGetTexImage( GLenum target, GLint level,
+                                     GLenum format, GLenum type,
+                                     GLvoid *pixels )
+{
+    // Cant do this
+     Assert (0, "jwzgles_glGetTexImage called");
+}
 
+void
+jwzgles_glTexGenf(GLenum coord, GLenum pname, GLfloat param)
+{
+    Assert (0, "jwzgles_glTexGenf called");
+}
+
+void
+jwzgles_glGetTexLevelParameteriv(GLenum target, GLint level, GLenum pname, GLint * params)
+{
+    *params = 0;
+}
 /* OpenGLES doesn't have auto texture-generation at all!
    "Oh, just rewrite that code to use GPU shaders", they say.
    How fucking convenient.
@@ -3938,6 +3970,9 @@ jwzgles_glBindTexture (GLuint target, GLuint texture)
 {
   Assert (!state->compiling_verts,
           "glBindTexture not allowed inside glBegin");
+
+  restore_state.target = target;
+  restore_state.texture = texture;
 
   /* We implement 1D textures as 2D textures. */
   if (target == GL_TEXTURE_1D) target = GL_TEXTURE_2D;

@@ -153,6 +153,10 @@ extern "C"
 
 extern void jwzgles_reset (void);
 
+
+
+extern void jwzgles_restore (void);
+
     //for GZdoom
 void glVertexAttrib1f(	GLuint index,
                           GLfloat v0);
@@ -397,7 +401,7 @@ extern GLenum jwzgles_glGetError();
 GLubyte * jwzgles_glGetString(GLenum name);
 
 
-typedef float GLclampd;
+typedef double GLclampd;
 
 extern void jwzgles_glDepthRange(GLclampd near_val, GLclampd far_val);
 extern void jwzgles_glReadPixels (GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid *pixels);
