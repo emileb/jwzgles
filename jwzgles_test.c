@@ -85,7 +85,18 @@ void FlushOnStateChange()
         //LOGI("FlushOnStateChange arrays NOT valid");
 
         glClientActiveTexture(GL_TEXTURE0);
-        glBindBuffer (GL_ELEMENT_ARRAY_BUFFER, 0);
+
+        if( state->element_array_buffer != 0 )
+        {
+            glBindBuffer (GL_ELEMENT_ARRAY_BUFFER, 0);
+            state->element_array_buffer = 0;
+        }
+
+        if( state->array_buffer != 0 )
+        {
+            glBindBuffer (GL_ARRAY_BUFFER, 0);
+            state->array_buffer = 0;
+        }
 
         if( !state->vertPrtValid )
         {
@@ -141,12 +152,10 @@ void FlushOnStateChange()
 #if CHECK_OVERFLOW
     if ( ptrVertexAttribArray >= vertexattribs + SIZE_VERTEXATTRIBS)
     {
-
         FatalError("vertexattribs overflow\n");
     }
     if ( ptrIndexArray >= indexArray + SIZE_INDEXARRAY)
     {
-
         FatalError("indexArray overflow\n");
     }
 #endif
@@ -182,6 +191,15 @@ void FlushOnStateChange()
         glDisableClientState(GL_COLOR_ARRAY);
     }
 
+/*
+    if( state->element_array_buffer != 0 )
+        glBindBuffer (GL_ELEMENT_ARRAY_BUFFER, state->element_array_buffer);
+*/
+
+    if( state->array_buffer != 0 )
+    {
+        //glBindBuffer (GL_ARRAY_BUFFER, state->array_buffer);
+    }
 
     vertexCount = 0;
     indexCount = 0;
@@ -403,6 +421,8 @@ void jwzgles_glEnd(void)
     // flush after glEnd()
     if (wrapperPrimitiveMode == GL_LINES)
         FlushOnStateChange(); //For gzdoom automap
+
+    //FlushOnStateChange(); //TEST
 }
 
 

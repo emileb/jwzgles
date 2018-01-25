@@ -336,6 +336,7 @@ typedef struct  	/* global state */
     int colorPtrValid;
 
     GLuint element_array_buffer;
+    GLuint array_buffer;
 
     texgen_state s, t, r, q;
 
@@ -1342,6 +1343,7 @@ jwzgles_glLightModeliv (GLenum pname, const GLint *params)
 void
 jwzgles_glFogf  (GLenum pname, GLfloat param)
 {
+    FlushOnStateChange();
     glFogf(pname,param);
 }
 
@@ -3277,19 +3279,16 @@ jwzgles_glBindBuffer (GLuint target, GLuint buffer)
 
     if( target == GL_ARRAY_BUFFER )
     {
-        static GLuint last = -1;
-        if( buffer != last )
-        {
-            last = buffer;
-            FlushOnStateChange();
-            glBindBuffer (target, buffer);  /* the real one */
-        }
+
+        FlushOnStateChange();
+        glBindBuffer (target, buffer);  /* the real one */
+        state->array_buffer = buffer;
     }
     else if( target == GL_ELEMENT_ARRAY_BUFFER )
     {
-        state->element_array_buffer = buffer;
         FlushOnStateChange();
         glBindBuffer (target, buffer);  /* the real one */
+        state->element_array_buffer = buffer;
     }
     else
     {
