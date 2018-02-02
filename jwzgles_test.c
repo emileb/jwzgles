@@ -42,10 +42,10 @@ typedef struct
 static GLenum wrapperPrimitiveMode = GL_QUADS;
 GLboolean useTexCoordArray = GL_FALSE;
 
-#define SIZE_VERTEXATTRIBS 80000
+#define SIZE_VERTEXATTRIBS 200000
 static VertexAttrib vertexattribs[SIZE_VERTEXATTRIBS];
 
-#define SIZE_INDEXARRAY 300000
+#define SIZE_INDEXARRAY ( SIZE_VERTEXATTRIBS * 4 )
 static GLushort indexArray[SIZE_INDEXARRAY];
 
 static GLuint vertexCount = 0;
@@ -447,7 +447,8 @@ void jwzgles_glVertex4fv (const GLfloat *v)
     ptrVertexAttribArray->s_multi = currentVertexAttrib.s_multi;
     ptrVertexAttribArray->t_multi = currentVertexAttrib.t_multi;
 #endif
-    ptrVertexAttribArray ++;
+    if(ptrVertexAttribArray < vertexattribs + SIZE_VERTEXATTRIBS)
+        ptrVertexAttribArray ++;
 }
 
 void

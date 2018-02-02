@@ -333,7 +333,7 @@ extern void jwzgles_glInterleavedArrays (GLenum, GLsizei, const GLvoid *);
 extern void jwzgles_glTexEnvf (GLuint, GLuint, GLfloat);
 extern void jwzgles_glTexEnvi (GLuint, GLuint, GLuint);
 extern void jwzgles_glTexParameterf (GLuint, GLuint, GLfloat);
-extern void jwzgles_glTexParameteri (GLuint, GLuint, GLuint);
+extern void jwzgles_glTexParameteri (GLenum , GLenum , GLint  );
 extern void jwzgles_glTexGeni (GLenum, GLenum, GLint);
 extern void jwzgles_glTexGenfv (GLenum, GLenum, const GLfloat *);
 extern void jwzgles_glGetTexGenfv (GLenum, GLenum, GLfloat *);

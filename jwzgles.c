@@ -631,6 +631,9 @@ jwzgles_reset (void)
                                         GL_EYE_LINEAR;
     state->s.obj[0] = state->s.eye[0] = 1;  /* s = 1 0 0 0 */
     state->t.obj[1] = state->t.eye[1] = 1;  /* t = 0 1 0 0 */
+
+    restore_state.target = GL_TEXTURE_2D;
+    restore_state.texture = 0;
 }
 
 void jwzgles_restore (void)
@@ -3326,12 +3329,6 @@ jwzgles_glTexParameterf (GLuint target, GLuint pname, GLfloat param)
     Assert (!state->compiling_verts,
             "glTexParameterf not allowed inside glBegin");
 
-    /* We don't *really* implement mipmaps, so just turn this off. */
-    if (param == GL_LINEAR_MIPMAP_LINEAR)   param = GL_LINEAR;
-    if (param == GL_NEAREST_MIPMAP_LINEAR)  param = GL_LINEAR;
-    if (param == GL_LINEAR_MIPMAP_NEAREST)  param = GL_NEAREST;
-    if (param == GL_NEAREST_MIPMAP_NEAREST) param = GL_NEAREST;
-
     /* We implement 1D textures as 2D textures. */
     if (target == GL_TEXTURE_1D) target = GL_TEXTURE_2D;
 
@@ -3349,9 +3346,9 @@ jwzgles_glTexParameterf (GLuint target, GLuint pname, GLfloat param)
 }
 
 void
-jwzgles_glTexParameteri (GLuint target, GLuint pname, GLuint param)
+jwzgles_glTexParameteri (GLenum target, GLenum pname, GLint  param)
 {
-    jwzgles_glTexParameterf (target, pname, param);
+    glTexParameteri (target, pname, param);
 }
 
 
