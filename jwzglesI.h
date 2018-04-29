@@ -404,6 +404,7 @@ GLubyte * jwzgles_glGetString(GLenum name);
 typedef double GLclampd;
 
 extern void jwzgles_glDepthRange(GLclampd near_val, GLclampd far_val);
+extern void jwzgles_glDepthRangef(GLfloat near_val, GLfloat far_val);
 extern void jwzgles_glReadPixels (GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid *pixels);
 extern void jwzgles_glCopyTexSubImage2D (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height);
 extern void jwzgles_glDrawElements( GLenum mode, GLsizei count, GLenum type, const GLvoid *indices );

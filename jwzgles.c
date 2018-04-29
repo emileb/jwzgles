@@ -3049,6 +3049,13 @@ void jwzgles_glDepthRange(GLclampd near_val, GLclampd far_val)
     glDepthRangef((GLfloat)near_val,(GLfloat)far_val);
 }
 
+void jwzgles_glDepthRangef(GLfloat near_val, GLfloat far_val)
+{
+  	FlushOnStateChange();
+
+    glDepthRangef(near_val,far_val);
+}
+
 void jwzgles_glReadPixels (GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid *pixels)
 {
     FlushOnStateChange();
