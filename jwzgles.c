@@ -652,8 +652,6 @@ void jwzgles_restore (void)
 
     state->enabled |= ISENABLED_BLEND;
     state->enabled |= ISENABLED_TEXTURE_2D;
-
-
 }
 
 
@@ -3352,9 +3350,59 @@ jwzgles_glTexParameterf (GLuint target, GLuint pname, GLfloat param)
 
 }
 
+static
+
+static  GLint GL_TEXTURE_WRAP_S_last = -1;
+static  GLint GL_TEXTURE_WRAP_T_last = -1;
+
+static  GLint GL_TEXTURE_MIN_FILTER_last = -1;
+static  GLint GL_TEXTURE_MAG_FILTER_last = -1;
+
 void
 jwzgles_glTexParameteri (GLenum target, GLenum pname, GLint  param)
 {
+#if 0
+    if( target == GL_TEXTURE_2D )
+    {
+        switch( pname )
+        {
+            case GL_TEXTURE_WRAP_S:
+            {
+                if( param != GL_TEXTURE_WRAP_S_last )
+                    GL_TEXTURE_WRAP_S_last = param;
+                else
+                    return;
+            }
+            break;
+
+            case GL_TEXTURE_WRAP_T:
+            {
+                if( param != GL_TEXTURE_WRAP_T_last )
+                    GL_TEXTURE_WRAP_T_last = param;
+                else
+                    return;
+            }
+            break;
+
+            case GL_TEXTURE_MIN_FILTER:
+            {
+                if( param != GL_TEXTURE_MIN_FILTER_last )
+                    GL_TEXTURE_MIN_FILTER_last = param;
+                else
+                    return;
+            }
+            break;
+            case GL_TEXTURE_MAG_FILTER:
+            {
+                if( param != GL_TEXTURE_MAG_FILTER_last )
+                    GL_TEXTURE_MAG_FILTER_last = param;
+                else
+                    return;
+            }
+            break;
+        }
+    }
+#endif
     glTexParameteri (target, pname, param);
 }
 
