@@ -622,6 +622,7 @@ jwzgles_reset (void)
 
     if (state->set.verts)   free (state->set.verts);
     if (state->set.norms)   free (state->set.norms);
+    if (state->set.norms)   free (state->set.norms);
     if (state->set.tex)     free (state->set.tex);
     if (state->set.color)   free (state->set.color);
 
@@ -2271,6 +2272,11 @@ jwzgles_glTexImage2D (GLenum target,
         Assert (d2, "out of memory");
     }
 
+	if( internalFormat != format )
+	{
+		internalFormat = format;
+	}
+
     if (internalFormat == GL_RGB && format == GL_RGBA)
         internalFormat = GL_RGBA;  /* WTF */
     if (type == GL_UNSIGNED_INT_8_8_8_8_REV)
@@ -3731,6 +3737,10 @@ void jwzgles_glBlendEquation (GLenum e)
     // glBlendEquation(e);
 }
 
+void jwzgles_glGetTexParameterfv(GLenum target, GLenum pname, GLfloat *params)
+{
+	glGetTexParameterfv( target, pname, params);
+}
 /* The following functions are present in both OpenGL 1.1 and in OpenGLES 1,
    but are allowed within glNewList/glEndList, so we must wrap them to allow
    them to either be recorded in lists, or run directly.

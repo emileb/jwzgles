@@ -337,6 +337,7 @@ extern void jwzgles_glTexParameteri (GLenum , GLenum , GLint  );
 extern void jwzgles_glTexGeni (GLenum, GLenum, GLint);
 extern void jwzgles_glTexGenfv (GLenum, GLenum, const GLfloat *);
 extern void jwzgles_glGetTexGenfv (GLenum, GLenum, GLfloat *);
+extern void jwzgles_glGetTexParameterfv(GLenum target, GLenum pname, GLfloat *params);
 extern void jwzgles_glRectf (GLfloat, GLfloat, GLfloat, GLfloat);
 extern void jwzgles_glRecti (GLint, GLint, GLint, GLint);
 extern void jwzgles_glLightModelfv (GLenum, const GLfloat *);
