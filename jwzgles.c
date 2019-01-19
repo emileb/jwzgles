@@ -3337,6 +3337,9 @@ jwzgles_glTexParameterf (GLuint target, GLuint pname, GLfloat param)
 {
     FlushOnStateChange();
 
+    if( pname == 0x84FE ) //GL_TEXTURE_MAX_ANISOTROPY_EXT
+        return;
+
     Assert (!state->compiling_verts,
             "glTexParameterf not allowed inside glBegin");
 
