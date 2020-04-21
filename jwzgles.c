@@ -2224,8 +2224,8 @@ jwzgles_glTexImage2D (GLenum target,
 
     GLvoid *d2 = (GLvoid *) data;
 
-    Assert (width  == to_pow2(width),   "width must be a power of 2");
-    Assert (height == to_pow2(height), "height must be a power of 2");
+   // Assert (width  == to_pow2(width),   "width must be a power of 2");
+   // Assert (height == to_pow2(height), "height must be a power of 2");
 
     /* OpenGLES no longer supports "4" as a synonym for "RGBA". */
     switch (internalFormat)
