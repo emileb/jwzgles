@@ -522,4 +522,7 @@
 #define glGetError          jwzgles_glGetError
 #define glGetString          jwzgles_glGetString
 
+/* no GLES equivalent, so the GL headers provide no prototype to rename */
+void jwzgles_glGetTexImage (GLenum target, GLint level, GLenum format, GLenum type, GLvoid *pixels);
+
 #endif /* __JWZGLES_H__ */
